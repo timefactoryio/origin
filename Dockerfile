@@ -1,29 +1,24 @@
-# Build stage
-FROM --platform=$BUILDPLATFORM golang:latest AS go_builder
+# Build binary for target platform
+FROM --platform=$BUILDPLATFORM golang:latest AS builder
 WORKDIR /src
-
 ARG TARGETARCH
 
-# Copy only go.mod and go.sum for dependency resolution
-COPY main.go go.mod go.sum ./
+# Download dependencies
+COPY go.mod go.sum ./
+RUN --mount=type=cache,target=/go/pkg/mod go mod download
 
-# Cache Go modules
+# Build static binary
+COPY . .
 RUN --mount=type=cache,target=/go/pkg/mod \
-    go mod download
+    CGO_ENABLED=0 GOARCH=$TARGETARCH go build -ldflags="-s -w" -o /out/origin .
 
-# build the binary
-RUN --mount=type=cache,target=/go/pkg/mod \
-    CGO_ENABLED=0 GOARCH=$TARGETARCH go build -ldflags="-s -w" -o /out/demo .
-
-# Copy CA certificates from builder
+# Copy CA certificates for HTTPS requests at runtime
 RUN mkdir -p /out/etc/ssl/certs && \
     cp /etc/ssl/certs/ca-certificates.crt /out/etc/ssl/certs/
 
-# Final stage
+# Minimal scratch image — binary and certs only
 FROM scratch
-WORKDIR /app
-COPY --from=go_builder /out/demo /demo
-COPY --from=go_builder /out/etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
-
+COPY --from=builder /out/origin /origin
+COPY --from=builder /out/etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 USER 1000
-ENTRYPOINT ["/demo"]
+ENTRYPOINT ["/origin"]

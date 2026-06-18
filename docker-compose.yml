@@ -1,22 +1,13 @@
 services:
-  pathless-demo:
-    image: timefactory/pathless:demo
-    container_name: pathless-demo
+  origin:
+    image: timefactory/origin:demo
+    container_name: origin
     pull_policy: always
-    networks:
-      - pathless
+    environment:
+      - TITLE=the perpetual motion machine
+      - LOGO=https://zero.s3.timefactory.io/timefactory.svg
+      - SLIDES=https://zero.s3.timefactory.io/slides
+      - TEXT=https://raw.githubusercontent.com/timefactoryio/pathless/refs/heads/main/README.md
     ports:
       - 127.0.0.1:1000:1000
-
-  frame-demo:
-    image: timefactory/demo
-    container_name: frame-demo
-    pull_policy: always
-    networks:
-      - pathless
-    ports:
       - 127.0.0.1:1001:1001
-
-networks:
-  pathless:
-    driver: bridge

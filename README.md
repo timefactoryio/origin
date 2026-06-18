@@ -1,66 +1,65 @@
-# demo
+# origin
 
-A demonstration application for the [frame](https://github.com/timefactoryio/frame) system that showcases dynamic content rendering in the [pathless](https://github.com/timefactoryio/pathless) viewport allocator.
-
+A template application built on [pathless](https://github.com/timefactoryio/pathless).
 
 ```go
 package main
 
 import (
-	"os"
+    "os"
 
-	"github.com/timefactoryio/frame"
+    "github.com/timefactoryio/pathless"
 )
 
 func main() {
-	f := frame.NewFrame()
-	f.Home(os.Getenv("LOGO"), os.Getenv("TITLE"))
-	f.Text(os.Getenv("TEXT"))
-	f.Slides(os.Getenv("SLIDES"))
-	f.Start(os.Getenv("PATHLESS"))
-	select {}
+    p := pathless.NewPathless(os.Getenv("ORIGIN"), os.Getenv("CIRCUIT"))
+    p.Home(os.Getenv("LOGO"), os.Getenv("TITLE"))
+    p.Text(os.Getenv("TEXT"))
+    p.Slides(os.Getenv("SLIDES"))
+    p.Serve()
 }
 ```
 
 ## Overview
 
-This app serves three types of frames:
-- **Home**: A custom landing page with logo and heading
-- **Text**: Markdown content rendered from a URL or file
-- **Slides**: An image slideshow from a directory
+Serves two endpoints:
+- `:1000` — HTML shell
+- `:1001` — wire gateway (binary API)
 
-### Environment Variables
+Content types:
+- **Home**: logo and heading
+- **Text**: markdown rendered from a URL or file
+- **Slides**: image slideshow fetched from a URL or local directory
 
-Configure the app using environment variables:
+## Environment Variables
 
-| Variable   | Description                           | Default                 |
-| ---------- | ------------------------------------- | ----------------------- |
-| `LOGO`     | Path to SVG logo file                 | -                       |
-| `TITLE`    | Text displayed on home frame          | -                       |
-| `TEXT`     | URL or file path for markdown content | -                       |
-| `SLIDES`   | Directory containing slide images     | -                       |
-| `PATHLESS` | URL of pathless instance              | `http://localhost:1000` |
+| Variable  | Description                                               |
+| --------- | --------------------------------------------------------- |
+| `ORIGIN`  | Bare domain for the HTML shell (e.g. `example.com`)       |
+| `CIRCUIT` | Bare domain for the wire gateway (e.g. `api.example.com`) |
+| `LOGO`    | URL or path to SVG logo                                   |
+| `TITLE`   | Heading text                                              |
+| `TEXT`    | URL or file path for markdown content                     |
+| `SLIDES`  | URL or file path for slides payload                       |
 
-### Example Configuration
+Leave `ORIGIN` and `CIRCUIT` empty for dev — defaults to `localhost` with CORS `*`.
+
+## Quick Start
+
+```bash
+docker compose -f docker-compose.dev.yml up
+```
+
+Runs on `http://localhost:1000`.
+
+## Production
 
 ```yaml
 environment:
-	- PATHLESS=https://timefactory.io
-	- LOGO=https://zero.s3.timefactory.io/timefactory.svg
-	- TITLE=the perpetual motion machine
-	- TEXT=https://raw.githubusercontent.com/timefactoryio/pathless/refs/heads/main/README.md
-	- SLIDES=/slides
+  - ORIGIN=example.com
+  - CIRCUIT=api.example.com
+  - LOGO=https://your-bucket.s3.example.com/logo.svg
+  - TITLE=your title
+  - TEXT=https://raw.githubusercontent.com/your-org/repo/main/README.md
+  - SLIDES=https://your-bucket.s3.example.com/slides
 ```
-## Quick Start
-
-### Using Docker Compose
-
-The easiest way to run the demo:
-
-```bash
-docker compose up
-```
-
-This starts both services:
-- **pathless** on `http://localhost:1000` (the viewport interface)
-- **demo** on `http://localhost:1001` (the frame server)

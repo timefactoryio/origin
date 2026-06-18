@@ -1,4 +1,4 @@
-name: zero
+name: one
 
 on:
    workflow_dispatch:
@@ -11,9 +11,13 @@ on:
                - patch
                - minor
                - major
+         custom_tag:
+            description: "Additional tag (optional, e.g. stable, beta)"
+            required: false
+            type: string
 
 jobs:
-   compound:
+   build-and-push:
       runs-on: [self-hosted, linux, x64]
       permissions:
          contents: write
@@ -39,22 +43,32 @@ jobs:
               username: ${{ secrets.DOCKER_USER }}
               password: ${{ secrets.DOCKER_TOKEN }}
 
-         - name: Build and push Docker image (patch)
-           if: inputs.version_bump == 'patch'
-           uses: docker/build-push-action@v5
-           with:
-              context: .
-              push: true
-              platforms: linux/amd64,linux/arm64
-              tags: docker.io/timefactory/${{ github.event.repository.name }}:dev
+         - name: Build Docker tags
+           id: tags
+           run: |
+              REPO="docker.io/timefactory/${{ github.event.repository.name }}"
+              VERSION="${{ steps.tag_version.outputs.new_tag }}"
 
-         - name: Build and push Docker image (minor/major)
-           if: inputs.version_bump == 'minor' || inputs.version_bump == 'major'
+              TAGS="${REPO}:${VERSION}"
+
+              if [ "${{ inputs.version_bump }}" = "patch" ]; then
+                TAGS="${TAGS},${REPO}:dev"
+                echo "platforms=linux/amd64,linux/arm64" >> $GITHUB_OUTPUT
+              elif [ "${{ inputs.version_bump }}" = "minor" ] || [ "${{ inputs.version_bump }}" = "major" ]; then
+                TAGS="${TAGS},${REPO}:latest"
+                echo "platforms=linux/amd64,linux/arm64,linux/arm/v7" >> $GITHUB_OUTPUT
+              fi
+
+              if [ -n "${{ inputs.custom_tag }}" ]; then
+                TAGS="${TAGS},${REPO}:${{ inputs.custom_tag }}"
+              fi
+
+              echo "tags=${TAGS}" >> $GITHUB_OUTPUT
+
+         - name: Build and push Docker image
            uses: docker/build-push-action@v5
            with:
               context: .
               push: true
-              platforms: linux/amd64,linux/arm64,linux/arm/v7
-              tags: |
-                 docker.io/timefactory/${{ github.event.repository.name }}:${{ steps.tag_version.outputs.new_tag }}
-                 docker.io/timefactory/${{ github.event.repository.name }}:latest
+              platforms: ${{ steps.tags.outputs.platforms }}
+              tags: ${{ steps.tags.outputs.tags }}

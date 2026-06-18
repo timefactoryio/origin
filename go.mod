@@ -1,10 +1,15 @@
 module github.com/timefactoryio/demo
 
-go 1.26.2
+go 1.26.4
 
-require github.com/timefactoryio/frame v0.5.4
+require github.com/timefactoryio/pathless v0.10.3
+
+// replace github.com/timefactoryio/pathless => ../pathless
 
 require (
-	github.com/litao91/goldmark-mathjax v0.0.0-20210217064022-a43cf739a50f // indirect
+	github.com/alecthomas/chroma/v2 v2.27.0 // indirect
+	github.com/dlclark/regexp2/v2 v2.2.2 // indirect
+	github.com/timefactoryio/markdown v0.0.5 // indirect
 	github.com/yuin/goldmark v1.8.2 // indirect
+	github.com/yuin/goldmark-highlighting/v2 v2.0.0-20230729083705-37449abec8cc // indirect
 )
