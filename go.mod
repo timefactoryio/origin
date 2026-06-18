@@ -1,4 +1,4 @@
-module github.com/timefactoryio/demo
+module github.com/timefactoryio/origin
 
 go 1.26.4
 
