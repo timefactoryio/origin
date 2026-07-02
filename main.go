@@ -10,9 +10,9 @@ import (
 // 	p := pathless.NewPathless()
 // 	p.Home("https://zero.s3.timefactory.io/timefactory.svg", "the point of origin")
 // 	p.Slides("https://zero.s3.timefactory.io/slides")
-// 	p.Text("https://raw.githubusercontent.com/timefactoryio/pathless/refs/heads/main/mechanics.md")
+// 	p.Text("../pathless/mechanics.md")
+// 	p.CustomHTML("./custom.html")
 // 	p.Serve()
-
 // }
 
 func main() {
