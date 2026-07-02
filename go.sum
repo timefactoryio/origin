@@ -19,8 +19,8 @@ github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+
 github.com/stretchr/testify v1.7.0/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
 github.com/timefactoryio/markdown v0.0.5 h1:KYTXvnvqBpljwepJn+RIvxAmA7loiYmoqQYdD3WqtAM=
 github.com/timefactoryio/markdown v0.0.5/go.mod h1:ZsE9v+KxsBJk/NM6Rnv2WujV+tmXn8b5RBCuxRcXhLc=
-github.com/timefactoryio/pathless v0.10.6 h1:jqtv92odXT3jBW6TTsCxGx5rBoiHSOM0FIzR4B2/ACw=
-github.com/timefactoryio/pathless v0.10.6/go.mod h1:5nDeyJtr0GsKQ5J9KTOLiSJqn0Xa3nRKfIxeW6JqXss=
+github.com/timefactoryio/pathless v0.10.7 h1:FzUZw3UgIAwWAR1D1wS9spOR4q8t7d4hzrqaxw6c1hA=
+github.com/timefactoryio/pathless v0.10.7/go.mod h1:5nDeyJtr0GsKQ5J9KTOLiSJqn0Xa3nRKfIxeW6JqXss=
 github.com/yuin/goldmark v1.4.15/go.mod h1:6yULJ656Px+3vBD8DxQVa3kxgyrAnzto9xy5taEt/CY=
 github.com/yuin/goldmark v1.8.2 h1:kEGpgqJXdgbkhcOgBxkC0X0PmoPG1ZyoZ117rDVp4zE=
 github.com/yuin/goldmark v1.8.2/go.mod h1:ip/1k0VRfGynBgxOz0yCqHrbZXhcjxyuS66Brc7iBKg=
