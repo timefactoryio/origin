@@ -9,8 +9,8 @@ import (
 func main() {
 	p := pathless.NewPathless(os.Getenv("ORIGIN"), os.Getenv("CIRCUIT"))
 	p.Home(os.Getenv("LOGO"), os.Getenv("TITLE"))
-	p.Slides(os.Getenv("SLIDES"))
 	p.Text(os.Getenv("TEXT"))
+	p.Slides(os.Getenv("SLIDES"))
 	p.Serve()
 }
 
@@ -19,5 +19,6 @@ func main() {
 // 	p.Home("https://zero.s3.timefactory.io/timefactory.svg", "the point of origin")
 // 	p.Slides("https://zero.s3.timefactory.io/slides")
 // 	p.Text("https://raw.githubusercontent.com/timefactoryio/pathless/refs/heads/main/mechanics.md")
+// 	p.Keyboard()
 // 	p.Serve()
 // }
