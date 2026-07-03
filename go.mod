@@ -2,7 +2,7 @@ module github.com/timefactoryio/origin
 
 go 1.26.4
 
-require github.com/timefactoryio/pathless v0.10.7
+require github.com/timefactoryio/pathless v0.10.8
 
 // replace github.com/timefactoryio/pathless => ../pathless
 
