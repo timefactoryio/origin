@@ -12,14 +12,23 @@ import (
 // 	p.Serve()
 // }
 
+//	func main() {
+//		p := pathless.NewPathless()
+//		p.Home("https://zero.s3.timefactory.io/timefactory.svg", "the point of origin")
+//		p.Text("../pathless/docs/README.md")
+//		p.Text("../pathless/docs/pathless.md")
+//		p.Text("../pathless/docs/mechanics.md")
+//		p.Text("../pathless/docs/zero.md")
+//		p.Text("../pathless/docs/fx.md")
+//		p.Text("../pathless/docs/one.md")
+//		p.Keyboard()
+//		p.Serve()
+//	}
 func main() {
 	p := pathless.NewPathless()
-	p.Home("https://zero.s3.timefactory.io/timefactory.svg", "the point of origin")
-	p.Text("../pathless/README.md")
-	p.Text("../pathless/mechanics.md")
-	p.Text("../pathless/zero/README.md")
-	p.Text("../pathless/fx/README.md")
-	p.Text("../pathless/one/README.md")
-	p.Keyboard()
-	p.Serve()
+	// p.Home("https://zero.s3.timefactory.io/timefactory.svg", "the point of origin")
+	// p.Text("../pathless/docs/mechanics.md")
+	// p.Slides("./slides")
+	// p.Keyboard()
+	p.Start()
 }
